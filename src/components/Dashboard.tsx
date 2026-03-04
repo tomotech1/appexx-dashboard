@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, Grid, Title, Text, Badge, Metric, Flex, ProgressBar } from "@tremor/react"
+import { Card, Grid, Title, Text, Badge, Metric, Flex } from "@tremor/react"
 import { Session } from "next-auth"
 
 const services = [
@@ -25,35 +25,33 @@ const services = [
 export default function Dashboard({ session }: { session: Session }) {
   return (
     <main className="min-h-screen bg-gray-950 p-6">
-      {/* Header */}
       <Flex className="mb-8">
         <div>
           <Title className="text-white text-2xl font-bold">Appexx Infrastructure</Title>
-          <Text className="text-gray-400">Paradigm合同会社 · Self-hosted Stack</Text>
+          <Text className="text-gray-400">{"Paradigm合同会社 · Self-hosted Stack"}</Text>
         </div>
         <div className="flex items-center gap-3">
           <Text className="text-gray-400 text-sm">{session.user?.email}</Text>
-          
-            href="/api/auth/signout"
+          <button
+            onClick={() => { window.location.href = "/api/auth/signout" }}
             className="text-xs text-gray-500 hover:text-white border border-gray-700 rounded px-3 py-1 transition"
           >
             Sign out
-          </a>
+          </button>
         </div>
       </Flex>
 
-      {/* Server Stats */}
       <Grid numItemsMd={3} className="gap-4 mb-6">
         <Card className="bg-gray-900 border-gray-800">
           <Text className="text-gray-400">Server</Text>
           <Metric className="text-white">appexx-prod-01</Metric>
-          <Text className="text-gray-500 text-sm mt-1">DigitalOcean · 8GB RAM · 4vCPU</Text>
+          <Text className="text-gray-500 text-sm mt-1">{"DigitalOcean · 8GB RAM · 4vCPU"}</Text>
           <Badge color="green" className="mt-2">Online</Badge>
         </Card>
         <Card className="bg-gray-900 border-gray-800">
           <Text className="text-gray-400">Domain</Text>
           <Metric className="text-white">appexx.me</Metric>
-          <Text className="text-gray-500 text-sm mt-1">Cloudflare · Namecheap</Text>
+          <Text className="text-gray-500 text-sm mt-1">{"Cloudflare · Namecheap"}</Text>
           <Badge color="green" className="mt-2">Active</Badge>
         </Card>
         <Card className="bg-gray-900 border-gray-800">
@@ -64,18 +62,15 @@ export default function Dashboard({ session }: { session: Session }) {
         </Card>
       </Grid>
 
-      {/* Services Grid */}
       <Title className="text-white mb-4">Services</Title>
       <Grid numItemsMd={4} className="gap-3">
         {services.map((service) => (
-          
+          <div
             key={service.name}
-            href={service.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block"
+            onClick={() => { window.open(service.url, "_blank") }}
+            className="block cursor-pointer"
           >
-            <Card className="bg-gray-900 border-gray-800 hover:border-indigo-500 hover:bg-gray-800 transition cursor-pointer">
+            <Card className="bg-gray-900 border-gray-800 hover:border-indigo-500 hover:bg-gray-800 transition">
               <Flex>
                 <div>
                   <span className="text-2xl">{service.icon}</span>
@@ -85,14 +80,13 @@ export default function Dashboard({ session }: { session: Session }) {
                 <Badge color="green" size="xs">●</Badge>
               </Flex>
             </Card>
-          </a>
+          </div>
         ))}
       </Grid>
 
-      {/* Footer */}
       <div className="mt-8 text-center">
         <Text className="text-gray-600 text-xs">
-          Appexx Infrastructure Dashboard · Paradigm合同会社 · {new Date().getFullYear()}
+          {"Appexx Infrastructure Dashboard · Paradigm合同会社 · "}{new Date().getFullYear()}
         </Text>
       </div>
     </main>
